@@ -4,7 +4,7 @@ parameters:
 application:
 	errorPresenter: Error
 	mapping:
-		*: [App, Modules\*, Presenters\*Presenter]
+		*: App\*Module\Presenters\*Presenter
 
 
 session:
@@ -13,7 +13,17 @@ session:
 
 security:
 	users:
-		admin: secret  # user 'admin', password 'secret'
+		# name: password
+		matus: matus
+		kathy: kathy
+
+search:
+	section:
+		in: %appDir%
+		classes:
+			- *Form
+			- *Repository
+			- *Service
 
 
 services:

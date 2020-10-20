@@ -1,19 +1,49 @@
 {block navig}
-	<li n:if="$user->loggedIn"><a n:href="Post:create">Write new post</a></li>
+	<li n:if="$user->loggedIn"><a n:href="create">Write new post</a></li>
 {/block}
 
 {block content}
-	<h1 n:block="title">My awesome blog</h1>
+    <h1 n:block="title">My awesome blog</h1>
 
-	<div n:foreach="$posts as $post" class="post">
-		<div class="date">{$post->created_at|date:'F j, Y'}</div>
+    {if $posts->count('*')}
+        {foreach $posts as $post}
+            <div class="date">{$post->created_at|date:'F j, Y'}</div>
 
-		<h2><a n:href="Post:show $post->id">{$post->title}</a></h2>
+            <h2><a n:href="show $post->id">{$post->title}</a></h2>
 
-		<div>{$post->content}</div>
-	</div>
+            <h4>{$post->content}</h4>
+            <a n:href="edit $post->id" class="btn btn-success btn-sm">edit</a>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+               Odstrániť
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Post Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Do you really want to remove this Post - <strong>{$post->title}</strong>
+                  </div>
+                  <div class="modal-footer">
+                    <a n:href="remove! $post->id" class="btn btn-secondary">Áno</a>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Nie</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-	<p><a n:href="this, page => $page-1" n:if="$page > 1">‹ back</a>
-		&nbsp;
-	<a n:href="this, page => $page+1" n:if="$iterations">next ›</a></p>
+        {/foreach}
+    {else}
+        <h4>No posts found</h4>
+    {/if}
+
+    {if $posts->count('*')}
+       <p><a n:href="this, page => $page-1" n:if="$page > 1">‹ back</a>
+        <a n:href="this, page => $page+1" n:if="$iterations">next ›</a></p>
+    {/if}
+
 {/block}

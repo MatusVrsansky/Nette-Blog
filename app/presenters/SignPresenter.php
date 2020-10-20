@@ -34,6 +34,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 	{
 		try {
 			$this->getUser()->login($values->username, $values->password);
+            $this->flashMessage('You have been logged in successfully');
 			$this->redirect('Homepage:');
 
 		} catch (Nette\Security\AuthenticationException $e) {

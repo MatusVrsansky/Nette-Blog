@@ -1,7 +1,6 @@
 body {
 	font: 16px/1.5 Georgia, Verdana, Arial;
 	margin: 0 auto;
-	width: 600px;
 	color: #333;
 	background-color: #fff;
 }
@@ -35,4 +34,15 @@ form .required label {
 form .error {
 	color: #D00;
 	font-weight: bold;
+}
+
+
+.contact-form .is-invalid {
+	border: 2px solid red;
+	background-image: none;
+}
+
+.invalid-feedback {
+	color: red;
+	font-size: 16px;
 }

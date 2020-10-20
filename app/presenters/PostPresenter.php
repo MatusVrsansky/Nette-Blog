@@ -6,10 +6,12 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Form;
+use Tracy\Debugger;
 
 
-final class PostPresenter extends Nette\Application\UI\Presenter
+class PostPresenter extends Nette\Application\UI\Presenter
 {
+
 	/** @var Nette\Database\Context */
 	private $database;
 
@@ -80,10 +82,33 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 
 		$post = $this->database->table('posts')->get($postId);
 		if (!$post) {
-			$this->error('Post not found');
+			$this->flashMessage('Post ID do not exists');
+			$this->redirect('Homepage:');
 		}
+		Debugger::barDump($post);
+
 		$this['postForm']->setDefaults($post->toArray());
 	}
+
+    public function handleRemove($postId)
+    {
+        if (!$this->getUser()->isLoggedIn()) {
+            $this->redirect('Sign:in');
+        }
+
+       $post = $this->database->table('posts')->get($postId);
+
+        if (!$post) {
+            $this->flashMessage('Post ID do not exists');
+            $this->redirect('Homepage:default');
+        }
+
+        $this->database->table('comments')->where(['post_id' => $postId])->delete();
+        $post->delete();
+
+        $this->flashMessage('Post deleted successfully');
+        $this->redirect('Homepage:default');
+    }
 
 
 	protected function createComponentPostForm(): Form
@@ -92,18 +117,33 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 			$this->error('You need to log in to create or edit posts');
 		}
 
-		$form = new Form;
-		$form->addText('title', 'Title:')
-			->setRequired();
-		$form->addTextArea('content', 'Content:')
-			->setRequired();
 
-		$form->addSubmit('send', 'Save and publish');
+
+		$form = new Form;
+
+
+		$form->addText('title', 'Title:')
+			->setRequired('Nazov je povinny');
+
+		$form->addTextArea('content', 'Content:')
+            ->setRequired('Obsah je povinny');
+
+        $form->addHidden('user', $this->getUser()->id);
+
+        $form->addSubmit('send', 'Uložit a publikovat');
+
+        $form->onError[] = [$this, 'contactFormError'];
 		$form->onSuccess[] = [$this, 'postFormSucceeded'];
 
 		return $form;
 	}
 
+    /**
+     * @param \Nette\Application\UI\Form $form
+     */
+    public function contactFormError(Form $form) {
+        $form->getPresenter()->redrawControl('contactFormSnippet');
+    }
 
 	public function postFormSucceeded(Form $form, array $values): void
 	{
@@ -117,6 +157,6 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 		}
 
 		$this->flashMessage('Post was published', 'success');
-		$this->redirect('show', $post->id);
+		$this->redirect('Homepage:default');
 	}
 }
