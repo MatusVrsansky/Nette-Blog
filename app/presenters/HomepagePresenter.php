@@ -28,12 +28,12 @@ class HomepagePresenter extends \App\Presenters\BasePresenter
     /**
      * @var \App\Forms\PostForm @inject
      */
-    public $post;
+    public $postFormFactory;
 
     /**
      * @var \App\Forms\CommentsForm @inject
      */
-    public $comments;
+    public $commentsFormFactory;
 
     protected $connection;
     /**
@@ -143,11 +143,11 @@ class HomepagePresenter extends \App\Presenters\BasePresenter
 
     public function createComponentPostForm(): Form
     {
-        return $this->post->create($this->id, $this->user);
+        return $this->postFormFactory->create($this->id, $this->user);
     }
 
     protected function createComponentCommentsForm(): Form
     {
-        return $this->comments->create($this->id);
+        return $this->commentsFormFactory->create($this->id);
     }
 }

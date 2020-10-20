@@ -41,7 +41,8 @@ class CommentsForm
         $form->addText('name', 'Your name:')
             ->setRequired('Name is required');
 
-        $form->addEmail('email', 'Email:');
+        $form->addEmail('email', 'Email:')
+            ->setRequired('Email is required');
 
         $form->addTextArea('content', 'Comment:')
             ->setRequired('Comment text is required');
@@ -59,7 +60,6 @@ class CommentsForm
      */
     public function commentFormError(Form $form) {
         $presenter = $form->getPresenter();
-
         if ($presenter->isAjax()) $presenter->redrawControl('commentsFormSnippet');
     }
 
@@ -75,6 +75,6 @@ class CommentsForm
         ]);
 
         $presenter->flashMessage('Thank you for your comment', 'success');
-        $presenter->redirect('Homepage:default');
+        $presenter->redirect('Homepage:show', $this->id);
     }
 }

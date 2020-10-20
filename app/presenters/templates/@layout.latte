@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="{$basePath}/css/style.css">
 </head>
 
+
+<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 <body>
 	<div class="container">
 		<ul class="navig">
@@ -23,8 +25,6 @@
 		</ul>
 
 		<p n:if="$user->loggedIn">Logged user: {$user->id}</p>
-
-		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
 		{include content}
 	</div>

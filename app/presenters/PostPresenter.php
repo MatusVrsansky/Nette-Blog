@@ -117,10 +117,7 @@ class PostPresenter extends Nette\Application\UI\Presenter
 			$this->error('You need to log in to create or edit posts');
 		}
 
-
-
 		$form = new Form;
-
 
 		$form->addText('title', 'Title:')
 			->setRequired('Nazov je povinny');
