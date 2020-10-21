@@ -1,2 +1,2 @@
-Nette Web Project
+Nette Blog
 =================
