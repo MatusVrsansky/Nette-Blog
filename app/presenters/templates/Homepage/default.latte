@@ -1,19 +1,18 @@
 {block navig}
-	<li n:if="$user->loggedIn"><a n:href="create">Write new post</a></li>
+	<li n:if="$user->loggedIn"><a n:href="Post:add">Write new post</a></li>
 {/block}
 
 {block content}
-    <h1 n:block="title">My awesome blog</h1>
+    <h1 n:block="title">Nette Blog</h1>
 
     {if $posts->count('*')}
         {foreach $posts as $post}
-            <div class="date">{$post->created_at|date:'F j, Y'}</div>
-
-            <h2><a n:href="show $post->id">{$post->title}</a></h2>
-
+            <h2><a n:href="Post:detail $post->id">{$post->title}</a></h2>
             <h4>{$post->content}</h4>
-            <a n:href="edit $post->id" class="btn btn-success btn-sm">edit</a>
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+             <div class="date">{$post->created_at|date:'F j, Y'}</div>
+             <br>
+            <a n:if="$user->loggedIn" n:href="Post:edit $post->id" class="btn btn-success btn-sm">edit</a>
+            <button  n:if="$user->loggedIn" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                Odstrániť
             </button>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

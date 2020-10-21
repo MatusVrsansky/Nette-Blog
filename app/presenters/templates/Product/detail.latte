@@ -1,0 +1,14 @@
+{block content}
+<h2>{$product->title}</h2>
+
+<p>{$product->price |number:2:',':' '} €</p>
+
+<p>{$product->description}</p>
+
+<div class="row">
+    {snippet productFormSnippet}
+        {control productAmountForm}
+    {/snippet}
+</div>
+
+{*<a n:href="detail $product->id" class="btn btn-primary btn-small ">Add to card</a>*}

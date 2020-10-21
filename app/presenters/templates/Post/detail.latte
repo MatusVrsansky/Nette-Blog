@@ -13,12 +13,11 @@
 
 <div class="comments">
 	{foreach $comments as $comment}
-		<div><b><a href="mailto:{$comment->email}" n:tag-if="$comment->email">{$comment->name}</a></b> said: {$comment->content}</div>
-
+		<p><b><a href="mailto:{$comment->email}" n:tag-if="$comment->email">{$comment->name}</a></b> said:</p>
+		<div>{$comment->content}</div>
 	{/foreach}
 </div>
 
 <h2>Post new comment</h2>
-{snippet commentsFormSnippet}
-    {control commentsForm}
-{/snippet}
+
+{control commentForm}

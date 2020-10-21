@@ -3,7 +3,6 @@
 namespace App\Forms;
 
 use Nette\Application\UI\Form;
-use Nette\Security\User;
 
 class PostForm
 {
@@ -65,7 +64,8 @@ class PostForm
     /**
      * @param \Nette\Application\UI\Form $form
      */
-    public function postFormError(Form $form) {
+    public function postFormError(Form $form)
+    {
         $presenter = $form->getPresenter();
 
         if ($presenter->isAjax()) $presenter->redrawControl('contactFormSnippet');
@@ -75,12 +75,11 @@ class PostForm
     {
         $presenter = $form->getPresenter();
 
-
         if ($this->id) {
             $post = $this->database->table('posts')->get($this->id);
             $post->update($values);
         } else {
-            $post = $this->database->table('posts')->insert($values);
+            $this->database->table('posts')->insert($values);
         }
 
         $presenter->flashMessage('Post was published', 'success');

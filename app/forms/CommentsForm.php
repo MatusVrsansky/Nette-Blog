@@ -75,6 +75,6 @@ class CommentsForm
         ]);
 
         $presenter->flashMessage('Thank you for your comment', 'success');
-        $presenter->redirect('Homepage:show', $this->id);
+        $presenter->redirect('Post:detail', $this->id);
     }
 }
