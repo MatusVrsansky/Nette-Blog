@@ -3,14 +3,10 @@
 namespace App\Forms;
 
 use Nette\Application\UI\Form;
-use Nette;
+use Nette\Security\AuthenticationException;
 
 class SignInForm
 {
-    /**
-     * @var
-     */
-    public $id;
     public function create()
     {
         $form = new Form;
@@ -32,6 +28,7 @@ class SignInForm
         return $form;
     }
 
+
     /**
      * @param \Nette\Application\UI\Form $form
      */
@@ -39,14 +36,15 @@ class SignInForm
         $form->getPresenter()->redrawControl('signInFormSnippet');
     }
 
-    public function signInFormSucceeded(Form $form, \stdClass $values): void
+
+    public function signInFormSucceeded(Form $form, \stdClass $values)
     {
         try {
             $form->getPresenter()->getUser()->login($values->username, $values->password);
             $form->getPresenter()->flashMessage('You have been logged in successfully');
             $form->getPresenter()->redirect('Homepage:');
 
-        } catch (Nette\Security\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             $form->addError('Incorrect username or password.');
         }
     }

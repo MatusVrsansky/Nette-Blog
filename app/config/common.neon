@@ -15,7 +15,9 @@ security:
 	users:
 		# name: password
 		matus: matus
-		kathy: kathy
+		admin: admin
+		denis: denis
+		jakub: jakub
 
 search:
 	section:

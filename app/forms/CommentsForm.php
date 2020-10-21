@@ -55,6 +55,7 @@ class CommentsForm
         return $form;
     }
 
+
     /**
      * @param \Nette\Application\UI\Form $form
      */
@@ -62,6 +63,7 @@ class CommentsForm
         $presenter = $form->getPresenter();
         if ($presenter->isAjax()) $presenter->redrawControl('commentsFormSnippet');
     }
+
 
     public function commentFormSucceeded(Form $form, \stdClass $values)
     {

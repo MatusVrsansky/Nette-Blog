@@ -1,37 +1,47 @@
 {block content}
     <h2>Basket</h2>
 
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Product</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Total amount</th>
-      <th scope="col">Total price</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-   <tbody>
-   {if !empty($basketProducts)}
-      {foreach $basketProducts as $key => $value}
-          <tr>
-            <th scope="row">{$iterator}</th>
-              <td>{$value['product_title']}</td>
-              <td>{$value['product_price'] |number:2:',':' '} €</td>
-              <td><a n:href="reduceProductAmount! $key, $value['product_price']" class="mr-2"><i class="fas fa-minus"></i></a> {$value['product_total_amount']} <a n:href="increaseProductAmount! $key, $value['product_price']" class="ml-2"><i class="fas fa-plus"></i></a></td>
-              <td>{$value['product_total_price'] |number:2:',':' '} €</td>
-              <td><a n:href="removeProductFromBasket! $key, $value['product_total_price']"><i class="fas fa-trash-alt"></i></a></td>
-          </tr>
-      {/foreach}
-   {else}
-   <tr>
-     <th scope="row"></th>
-     <td><h2>There are no products in the basket yet!</h2></td>
-   </tr>
-   {/if}
-    </tbody>
-
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total amount</th>
+          <th scope="col">Total price</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+           {if !empty($basketProducts)}
+            {foreach $basketProducts as $key => $value}
+                <tr>
+                    <th scope="row">{$iterator}</th>
+                    <td>{$value['product_title']}</td>
+                    <td>{$value['product_price'] |number:2:',':' '} €</td>
+                    <td>
+                        <a n:href="reduceProductAmount! $key, $value['product_price']" class="mr-2">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                        {$value['product_total_amount']}
+                        <a n:href="increaseProductAmount! $key, $value['product_price']"
+                        class="ml-2"><i class="fas fa-plus"></i>
+                        </a>
+                    </td>
+                    <td>{$value['product_total_price'] |number:2:',':' '} €</td>
+                    <td>
+                        <a n:href="removeProductFromBasket! $key, $value['product_total_price']">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            {/foreach}
+           {else}
+                <tr>
+                    <th scope="row"></th>
+                    <td><h2>There are no products in the basket yet!</h2></td>
+                </tr>
+            {/if}
+        </tbody>
+    </table>
 {/block}
