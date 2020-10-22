@@ -1,21 +1,6 @@
 CREATE DATABASE `nette-blog` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `nette-blog`;
 
-CREATE TABLE `comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `content` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `comments` (`id`, `post_id`, `name`, `email`, `content`, `created_at`) VALUES
-(33,	28,	'name',	'matus@frio.sk',	'message for admin Post',	'2020-10-21 21:23:34');
-
 CREATE TABLE `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -31,6 +16,21 @@ INSERT INTO `posts` (`id`, `title`, `content`, `user`, `created_at`) VALUES
 (26,	'Denis',	'Content Denis',	'denis',	'2020-10-21 20:48:23'),
 (27,	'Denis - Test - Update',	'Denis - Test - Update',	'denis',	'2020-10-21 21:18:15'),
 (28,	'Admin - update',	'Admin - update ',	'admin',	'2020-10-21 21:18:49');
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `comments` (`id`, `post_id`, `name`, `email`, `content`, `created_at`) VALUES
+(33,	28,	'name',	'matus@frio.sk',	'message for admin Post',	'2020-10-21 21:23:34');
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
