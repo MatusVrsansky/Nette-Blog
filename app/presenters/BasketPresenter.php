@@ -29,7 +29,7 @@ class BasketPresenter extends BasePresenter
 
     public function handleReduceProductAmount($key, $productPrice)
     {
-        if(--$this->getSession('basket')->products[$key]['product_total_amount'] == 0) {
+        if($this->getSession('basket')->products[$key]['product_total_amount'] - 1 == 0) {
             $this->getSession('basket')->products[$key]['product_total_amount'] = 1;
         } else {
             $this->getSession('basket')->products[$key]['product_total_amount'] -= 1;
