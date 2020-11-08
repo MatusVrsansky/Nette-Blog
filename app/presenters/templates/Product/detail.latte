@@ -3,12 +3,10 @@
 
 <p>{$product->price |number:2:',':' '} €</p>
 
+<p>Number of pieces in stock: {$product->count}</p>
+
 <p>{$product->description}</p>
 
 <div class="row">
-    {snippet productFormSnippet}
-        {control productAmountForm}
-    {/snippet}
+    {control productAmountForm}
 </div>
-
-{*<a n:href="detail $product->id" class="btn btn-primary btn-small ">Add to card</a>*}

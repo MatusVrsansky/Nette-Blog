@@ -2,6 +2,8 @@
 
 namespace App\Presenters;
 
+use Tracy\Debugger;
+
 class HomepagePresenter extends BasePresenter
 {
     public function startup()
@@ -10,21 +12,21 @@ class HomepagePresenter extends BasePresenter
     }
 
 
-    public function renderDefault(int $page = 1)
+    public function renderDefault()
     {
         if($this->getUser()->isLoggedIn())
         {
             $this->template->posts = $this->database->table('posts')
                 ->order('created_at DESC')
-                ->page($page, 5)
+//                ->page($page, 5)
                 ->where(['user' => $this->getUser()->id]);
         } else {
             $this->template->posts =$this->database->table('posts')
-                ->order('created_at DESC')
-                ->page($page, 5);
+                ->order('created_at DESC');
+//                ->page($page, 5);
         }
 
-        $this->template->page = $page;
+//        $this->template->page = $page;
     }
 
 

@@ -3,6 +3,7 @@
 namespace App\Forms;
 
 use Nette\Application\UI\Form;
+use Tracy\Debugger;
 
 class ProductForm
 {
@@ -10,11 +11,10 @@ class ProductForm
     {
         $form = new Form;
 
-        $form->getElementPrototype()->novalidate('novalidate');
-        $form->getElementPrototype()->class('ajax');
-
+        $form->addHidden('id');
         $form->addHidden('title');
         $form->addHidden('price');
+        $form->addHidden('count');
 
         $form->addInteger('amount')
             ->setHtmlAttribute('class', 'mb-4')
@@ -26,48 +26,45 @@ class ProductForm
         ->setHtmlAttribute('class', 'btn btn-primary btn-small');
 
         // call method signInFormSucceeded() on success
-        $form->onError[] = [$this, 'productFormError'];
         $form->onSuccess[] = [$this, 'productFormSuccess'];
         return $form;
     }
 
 
-    /**
-     * @param \Nette\Application\UI\Form $form
-     */
-    public function productFormError(Form $form) {
-        $form->getPresenter()->redrawControl('productFormSnippet');
-    }
-
-
     public function productFormSuccess(Form $form, array $values)
     {
-        // initialize session and add first product
-        if(!$form->getPresenter()->getSession('basket')->products) {
-            $form->getPresenter()->getSession('basket')->products = [];
-
-            array_push($form->getPresenter()->getSession('basket')->products,
-                [
-                    'product_title' => $values['title'],
-                    'product_price' => $values['price'],
-                    'product_total_amount' => $values['amount'],
-                    'product_total_price' =>$values['price'] * $values['amount']
-                ]
-            );
-        } else {
-            array_push($form->getPresenter()->getSession('basket')->products,
-                [
-                    'product_title' => $values['title'],
-                    'product_price' => $values['price'],
-                    'product_total_amount' => $values['amount'],
-                    'product_total_price' =>$values['price'] * $values['amount']
-                ]
-            );
+        if($values['count'] < $values['amount']) {
+            $form->getPresenter()->flashMessage('There are not enough pieces of this product in stock!');
+            $form->getPresenter()->redirect('this');
         }
 
-        $form->getPresenter()->getSession('basket')->basketTotalPrice += $values['price'] * $values['amount'];
+        else {
+            $values['total_price'] = $values['price'] * $values['amount'];
 
-        $form->getPresenter()->flashMessage('The product was successfully added to the cart');
-        $form->getPresenter()->redirect('Product:default');
+            // update total count of product in table -> products
+            $values['count'] -= $values['amount'];
+
+            // initialize session and add first product
+            if(!$form->getPresenter()->getSession('basket')->products) {
+                $form->getPresenter()->getSession('basket')->products = [];
+
+                array_push($form->getPresenter()->getSession('basket')->products,
+                    $values
+                );
+            } else {
+                array_push($form->getPresenter()->getSession('basket')->products,
+                    $values
+                );
+            }
+
+            // update table -> products
+            $form->getPresenter()->updateTable($values['id'], $values['count']);
+
+            $form->getPresenter()->getSession('basket')->basketTotalPrice += $values['price'] * $values['amount'];
+
+            $form->getPresenter()->flashMessage('The product was successfully added to the cart');
+            $form->getPresenter()->redirect('Product:default');
+        }
     }
+
 }

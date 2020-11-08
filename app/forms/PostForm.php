@@ -40,10 +40,6 @@ class PostForm
 
         $form = new Form;
 
-
-        $form->getElementPrototype()->novalidate('novalidate');
-        $form->getElementPrototype()->class('ajax');
-
         $form->addText('title', 'Title:')
             ->setRequired('Name is required');
 
@@ -64,12 +60,10 @@ class PostForm
     /**
      * @param \Nette\Application\UI\Form $form
      */
-    public function postFormError(Form $form)
-    {
-        $presenter = $form->getPresenter();
-
-        if ($presenter->isAjax()) $presenter->redrawControl('contactFormSnippet');
+    public function postFormError(Form $form) {
+        $form->getPresenter()->redrawControl('postFormSnippet');
     }
+
 
     public function postFormSucceeded(Form $form, array $values)
     {

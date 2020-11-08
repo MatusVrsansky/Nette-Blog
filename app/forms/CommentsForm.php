@@ -26,6 +26,7 @@ class CommentsForm
         $this->database = $database;
     }
 
+
     /**
      * @return \Nette\Application\UI\Form
     **/
@@ -34,9 +35,6 @@ class CommentsForm
         $this->id = $id;
 
         $form = new Form;
-
-        $form->getElementPrototype()->novalidate('novalidate');
-        $form->getElementPrototype()->class('ajax');
 
         $form->addText('name', 'Your name:')
             ->setRequired('Name is required');
@@ -49,19 +47,9 @@ class CommentsForm
 
         $form->addSubmit('send', 'Publish comment');
 
-        $form->onError[] = [$this, 'commentFormError'];
         $form->onSuccess[] = [$this, 'commentFormSucceeded'];
 
         return $form;
-    }
-
-
-    /**
-     * @param \Nette\Application\UI\Form $form
-     */
-    public function commentFormError(Form $form) {
-        $presenter = $form->getPresenter();
-        if ($presenter->isAjax()) $presenter->redrawControl('commentsFormSnippet');
     }
 
 

@@ -13,13 +13,13 @@
 		"nette/di": "^3.0",
 		"nette/finder": "^2.5",
 		"nette/forms": "^3.0",
-		"nette/http": "^3.0",
 		"nette/mail": "^3.0",
 		"nette/robot-loader": "^3.0",
 		"nette/security": "^3.0",
 		"nette/utils": "^3.0",
 		"latte/latte": "^2.5",
-		"tracy/tracy": "^2.6"
+		"tracy/tracy": "^2.6",
+		"ipub/visual-paginator": "^2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"

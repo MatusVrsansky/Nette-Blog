@@ -40,8 +40,5 @@
         <h5><a n:href="Post:add">Add New post here</a></h5>
     {/if}
 
-    {if $posts->count('*')}
-        <p><a n:href="this, page => $page-1" n:if="$page > 1">‹ back</a>
-        <a n:href="this, page => $page+1" n:if="$iterations">next ›</a></p>
-    {/if}
+
 {/block}

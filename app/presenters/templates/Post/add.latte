@@ -1,7 +1,23 @@
 {block content}
     <h1>New post</h1>
 
-    {snippet contactFormSnippet}
-      {control postForm}
+    {snippet postFormSnippet}
+        <form n:name="postForm" class="form ajax" novalidate data-naja-force-redirect>
+            <div class="form-group">
+                <input type="text" n:name="title" n:class="$form['title']->hasErrors() ? is-invalid, form-control" id="pwd" placeholder="Title">
+                <div class="invalid-feedback" n:ifcontent>{inputError title}</div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="tel" n:name="content" n:class="$form['content']->hasErrors() ? is-invalid, form-control" id="email" placeholder="Content">
+                        <div class="invalid-feedback" n:ifcontent>{inputError content}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
     {/snippet}
 {/block}
